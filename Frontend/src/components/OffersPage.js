@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function OffersPage() {
     const [offers, setOffers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        // Fetch offers from the backend API
         axios.get('http://127.0.0.1:8000/api/offers/')
-            .then(response => setOffers(response.data))
-            .catch(error => console.error('Error fetching offers:', error));
-    }, []);
-
-    const handlePurchase = (offerId) => {
-        axios.post('http://127.0.0.1:8000/api/subscriptions/', {
-            offer: offerId,
-        })
-            .then(() => {
-                alert('Offer purchased successfully!');
+            .then(response => {
+                console.log('Offers fetched:', response.data); // Debug log
+                setOffers(response.data);
             })
             .catch(error => {
-                console.error('Error purchasing offer:', error);
+                console.error('Error fetching offers:', error);
             });
+    }, []);
+
+    const handlePurchase = (offer) => {
+        // Navigate to the payment page with the selected offer details
+        navigate('/payment', { state: { offer } });
     };
 
     return (
@@ -29,8 +30,13 @@ function OffersPage() {
                 <ul>
                     {offers.map(offer => (
                         <li key={offer.id} style={styles.offerItem}>
-                            <strong>{offer.title}</strong> - {offer.description} <br />
-                            <button onClick={() => handlePurchase(offer.id)} style={styles.button}>
+                            <strong>{offer.name}</strong> - {offer.description} <br />
+                            Price: {offer.price} DZD for {offer.duration_days} days
+                            <br />
+                            <button
+                                onClick={() => handlePurchase(offer)}
+                                style={styles.button}
+                            >
                                 Purchase
                             </button>
                         </li>

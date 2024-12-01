@@ -4,6 +4,8 @@ import HomePage from './components/HomePage';
 import SubscriptionsPage from './components/SubscriptionsPage';
 import OffersPage from './components/OffersPage';
 import Navbar from './components/Navbar';
+import PaymentPage from './components/PaymentPage';
+import LoginPage from './components/LoginPage';
 
 function App() {
     return (
@@ -18,8 +20,13 @@ function App() {
                     <Route path="/subscriptions" element={<SubscriptionsPage />} />
 
                     {/* Offers Page */}
-                    <Route path="/OffersPage" element={<OffersPage />} />
+                    <Route path="/offersPage" element={<OffersPage />} />
 
+                    {/* Payment Page */}
+                    <Route path="/payment" element={<PaymentPage />} />
+
+                    {/* Login Page */}
+                    <Route path="/login" element={<LoginPage />} />
                 </Routes>
             </div>
         </Router>
